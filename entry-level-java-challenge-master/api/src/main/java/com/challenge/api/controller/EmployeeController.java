@@ -29,7 +29,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{uuid}")
-    public Employee getEmployeeByUuid(@PathVariable UUID uuid) {
+    public Employee getEmployeeByUuid(@PathVariable("uuid") UUID uuid) {
         return employeeService.getEmployeeByUuid(uuid);
     }
 

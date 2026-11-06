@@ -53,11 +53,13 @@ public class EmployeeRequest implements Employee {
 
     @Override
     public void setFullName(String name) {
-        String[] names = name.split(" ");
-        if (names.length == 2) {
-            this.setFirstName(names[0]);
-            this.setLastName(names[1]);
+        if (name == null || name.isBlank()) {
+            return;
         }
+
+        String[] parts = name.trim().split("\\s+", 2);
+        this.firstName = parts[0];
+        this.lastName = parts.length > 1 ? parts[1] : "";
     }
 
     @Override

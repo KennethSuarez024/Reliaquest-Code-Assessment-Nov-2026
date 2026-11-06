@@ -1,7 +1,10 @@
 package com.challenge.api.service;
-
-import com.challenge.api.model.*;
-import java.util.*;
+import com.challenge.api.model.Employee;
+import com.challenge.api.model.EmployeeRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,30 +65,6 @@ public class EmployeeService {
         return request;
     }
 
-    /**
-     * Method to take a employees UUID and return that employees
-     * registered email
-     * returns email string
-     */
-    public String getEmailByUuid(UUID uuid) {
-        Employee employee = this.getEmployeeByUuid(uuid);
-        return employee.getEmail();
-    }
-
-    /**Method to take a UUID and delete the cooresponding Employee
-     * returns nothing
-     */
-    public void deleteEmployee(UUID uuid) {
-        Employee removedEmployee = this.employees.remove(uuid);
-
-        if (removedEmployee == null) {
-            logger.warn("Employee could not be deleted for UUID {}", uuid);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
-        }
-
-        logger.info("Deleted employee with UUID {}", uuid);
-    }
-
     /**Method used to perform input validation when
      * a new employee is created
      */
@@ -107,7 +86,7 @@ public class EmployeeService {
         }
 
         if (request.getAge() == null || request.getAge() < 18) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Age is required and must older than 18");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Age is required and must be at least 18");
         }
 
         if (request.getJobTitle() == null || request.getJobTitle().isBlank()) {
